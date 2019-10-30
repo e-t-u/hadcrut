@@ -3,16 +3,17 @@
 #
 
 year.first = 1850
-year.last = 2012
+year.last = 2018
 min=7  # minimum amount of consequtive years to be tested
-max=30 # maximum amount of consequtive years to be tested
+max=35 # maximum amount of consequtive years to be tested
 max=min(max,year.last-year.first+1)
-url = "http://www.metoffice.gov.uk/hadobs/hadcrut4/data/current/time_series/HadCRUT.4.1.1.0.annual_ns_avg.txt"
-
+# New location 2019
+#url = "http://www.metoffice.gov.uk/hadobs/hadcrut4/data/current/time_series/HadCRUT.4.1.1.0.annual_ns_avg.txt"
+url = "https://www.metoffice.gov.uk/hadobs/hadcrut4/data/current/time_series/HadCRUT.4.6.0.0.annual_ns_avg.txt"
 #
 # Read hadCRUT4 data directly from the source and select interesting data
 #
-#h.all = read.table(url)
+h.all = read.table(url)
 h.temps = as.data.frame(h.all[,1:2])  # just temperature, no confidence intervals
 names(h.temps) = c("year", "temp")
 h = h.temps[h.temps$year>=year.first & h.temps$year<=year.last,]
@@ -32,8 +33,8 @@ enough=10000  # max size of result data frame
 results = data.frame(  # much easier to do this in static table
   year.first=rep(0, enough),
   year.last=rep(0, enough),
-  k=rep(0,enough),
-  p=rep(0,enough))
+  k=rep(0, enough),
+  p=rep(0, enough))
 
 #
 # Go through samples with sliding window of min .. length(samples)
@@ -42,7 +43,7 @@ results = data.frame(  # much easier to do this in static table
 #
 for (len in seq(min,max)) {
   #print(len)
-  for (i in seq(1,samples-len)) {
+  for (i in seq(len,samples-len-len)) {
     n = n + 1
     #print(i)
     years = h[i:(i+len-1),]$year
@@ -76,7 +77,7 @@ r = results[1:n,]
 #
 # plot results
 #
-# Order the data so that smalles p is last
+# Order the data so that smallest p is last
 # Then the most sure color is plotted on the top of others
 #
 r = r[order(r$p, decreasing=TRUE),]
