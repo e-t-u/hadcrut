@@ -4,8 +4,8 @@
 
 year.first = 1850
 year.last = 2018
-min=7  # minimum amount of consequtive years to be tested
-max=35 # maximum amount of consequtive years to be tested
+min=7  # minimum amount of consecutive years to be tested
+max=50 # maximum amount of consecutive years to be tested
 max=min(max,year.last-year.first+1)
 # New location 2019
 #url = "http://www.metoffice.gov.uk/hadobs/hadcrut4/data/current/time_series/HadCRUT.4.1.1.0.annual_ns_avg.txt"
@@ -23,7 +23,7 @@ h = h.temps[h.temps$year>=year.first & h.temps$year<=year.last,]
 #
 
 #
-# Regression of all consequtive years
+# Regression of all consecutive years
 # 2 is never statistically significant, 3 and 4 rarely
 #
 samples=nrow(h)  # how many years
@@ -105,10 +105,10 @@ for (i in 1:nrow(r)){
     color = "orange"
   }
   else if(k<0 & p>=0.05) {
-    color = "lightgreen"
+    color = "cyan"
   }
   else {
-    color = "green4"
+    color = "blue"
   }
   y.delta = runif(1)  # random 0..1
   segments(x0=y.first,
@@ -126,10 +126,10 @@ n3 = sum(r$k<0 & r$p>=0.05)
 n4 = sum(r$k<0 & r$p<0.05)
 n.sum=sum(c(n1,n2,n3,n4))
 barplot(c(n1,n2,n3,n4),
-    col=c("red","orange","lightgreen","green4"),
+    col=c("red","orange","cyan","blue"),
     srt=5,
     main=sprintf("Linear regression of HadCRUT4, all combinations %d-%d, %d-%d",
       year.first,year.last,min,max))
 legend(3.9,max(c(n1,n2,n3,n4)),
        c("inc, p<0.05", "inc, p>=0.05", "dec, p>=0.05", "dec, p<0.05"),
-       fill=c("red","orange","lightgreen","green4"))
+       fill=c("red","orange","cyan","blue"))
