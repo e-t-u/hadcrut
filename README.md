@@ -67,13 +67,13 @@ In the interval charts below, each horizontal segment represents a linear regres
 - **Vertical Axis:** Window length (7 to 50 years).
 - **Horizontal Axis:** Year.
 - **Dashed Lines:** Outer boundaries of the upside-down cone.
+- **Vertical Randomization (Jitter):** Line segments are slightly randomized vertically within each window-length integer band ($y_{\text{jitter}} = L + \delta, \delta \in [0, 0.9)$) to prevent overlapping intervals of the same length from completely obscuring each other.
+- **Layer Ordering:** Data is sorted by $p$-value in descending order prior to plotting, guaranteeing that the most statistically significant trends (lowest $p$-values) are rendered on top.
 - **Colors:**
   - **Red:** Statistically significant warming ($p < 0.05$)
   - **Orange:** Non-significant warming ($p \ge 0.05$)
   - **Cyan:** Non-significant cooling ($p \ge 0.05$)
   - **Blue:** Statistically significant cooling ($p < 0.05$)
-
-Statistically most significant ranges are plotted on top.
 
 ![Chart Comparison](chart-comparison.png)
 
