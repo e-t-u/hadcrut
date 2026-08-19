@@ -31,12 +31,42 @@ The analysis compares three configurations across window sizes of 7–50 years:
 
 ---
 
+## How the Upside-Down Cone Works
+
+When evaluating temperature trends over sliding windows of varying duration $L$ ($7 \le L \le 50$ years), boundary conditions can distort statistical comparisons if longer windows are allowed to abut the extreme edges of the historical record arbitrarily.
+
+The **upside-down cone** geometry enforces symmetric boundary tapering as window length increases:
+
+```
+Window Length (L)
+  50 yrs |         /=========================\         (Narrow span: 1899 to 1976)
+         |        /                           \
+  30 yrs |       /                             \
+         |      /                               \
+   7 yrs |     /=================================\     (Wide span: 1856 to 2019)
+         +---------------------------------------------
+              1850                                  2026  (Year)
+```
+
+### Mathematical Formulation
+For a time series with $N$ annual measurements spanning years $Y_{\text{first}}$ to $Y_{\text{last}}$:
+- **Starting Index:** $i_{\text{start}} = L$, so the earliest window starts at year $Y_{\text{start}} = Y_{\text{first}} + L - 1$.
+- **Ending Index:** $i_{\text{end}} = N - 2L$, so the latest window ends at year $Y_{\text{end}} = Y_{\text{last}} - L$.
+- **Symmetric Inward Slopes:** Both the left and right boundaries slope inward at $45^\circ$ (1 year of boundary buffer per 1 year of increased window duration).
+
+### Key Benefits
+1. **Edge Effect Elimination:** Prevents long multi-decade windows from disproportionately anchoring to sparse early historical measurements (1850s) or recent unclosed decades.
+2. **Symmetric Temporal Centering:** Ensures that tested intervals at every window length $L$ remain balanced around the historical midpoint of the observational record.
+3. **Oscillation Clarity:** Separates short-term internal climate variability (e.g. ~20–30 year cycles such as PDO/AMO) from secular multi-decadal warming trends without boundary distortion.
+
+---
+
 ## Upside-Down Cone Regression Charts
 
-In the interval charts below, each horizontal segment represents a linear regression over a specific time window. 
+In the interval charts below, each horizontal segment represents a linear regression over a specific time window:
 - **Vertical Axis:** Window length (7 to 50 years).
 - **Horizontal Axis:** Year.
-- **Upside-Down Cone Geometry:** Boundaries slope inward symmetrically on both sides as window length increases (`i_start = len`, `i_end = samples - 2 * len`).
+- **Dashed Lines:** Outer boundaries of the upside-down cone.
 - **Colors:**
   - **Red:** Statistically significant warming ($p < 0.05$)
   - **Orange:** Non-significant warming ($p \ge 0.05$)
