@@ -1,44 +1,70 @@
-# HadCRUT analysis
+# HadCRUT Temperature Regression Analysis
 
-This program analyzes temperature data from HadCRUT data set.
+This program analyzes linear temperature trends across continuous year ranges (7 to 50 years) from the UK Met Office HadCRUT datasets (HadCRUT4 and HadCRUT5).
 
-It is easy to say that temperature is rising or dropping if you can select
-the years what you compare. This program shows *all* the meaningful year
-ranges that are available in the measurements.
+By testing all continuous year ranges within an **upside-down cone** geometry, the analysis demonstrates how temperature trends behave across different time horizons, highlighting multi-decadal oscillations and long-term warming.
 
-Meaningful data ranges are considered all those, who are 7 - 50 years.
-The whole data set is 168 years.
+---
 
-![Barchart](barchart-2020.png)
+## 3-Way Comparative Overview
 
-In the data set there are currently years 1850 - 2018. At those
-years there are about 1400 year ranges between seven and fifty
-years that show statistically meaningful increase in temperatures.
-Additionally there are about 1000 year ranges that show increase in
-the temperature but it is not statistically important. There are
-also about 1000 year ranges that show non-statistically-important
-cooling. But there are still about 200 year ranges that show
-statistically important cooling.
+The analysis compares three configurations across window sizes of 7–50 years:
+1. **HadCRUT4 (1850–2021)**: Retired baseline dataset (172 years).
+2. **HadCRUT5 (1850–2021)**: Modern dataset over the identical historical period for direct baseline comparison.
+3. **HadCRUT5 (1850–2026)**: Full contemporary series (177 years).
 
-![Chart](chart-2020.png)
+### Summary Statistics (Upside-Down Cone)
 
-When we put the ranges to the chart, we get a better view of
-oscillation of warming and cooling periods. The chart hides
-outliers nicely.
+| Category | HadCRUT4 (1850–2021) | HadCRUT5 (1850–2021) | HadCRUT5 (1850–2026) |
+|---|---|---|---|
+| **Total Ranges in Cone** | 3,850 | 3,850 | 4,070 |
+| **Statistically Sig. Warming ($p < 0.05$)** | 1,526 (39.6%) | 1,606 (41.7%) | 1,754 (43.1%) |
+| **Non-Sig. Warming ($p \ge 0.05$)** | 1,085 (28.2%) | 1,044 (27.1%) | 1,093 (26.9%) |
+| **Non-Sig. Cooling ($p \ge 0.05$)** | 1,055 (27.4%) | 955 (24.8%) | 978 (24.0%) |
+| **Statistically Sig. Cooling ($p < 0.05$)** | 184 (4.8%) | 245 (6.4%) | 245 (6.0%) |
 
-Range lines are randomly spread between the range-length-year and
-the next range-length-year to avoid them totally shadowing each other.
-Statistically most significant range is on the top.
+---
 
-In the bottom we see that there is oscillation of little over 20 years
-between cooling and warming periods. In the middle there seems
-to be larger oscillation of about 60 years but we really see only
-two cooling periods that does not make it possible to make
-any conclusions. Of the periods over 40 years we do not
-have enough measurements to say anything meaningful. If there
-is oscillation of 60 years, we would not see it in the top of the
-chart yet.
+## Distribution Comparison
 
-Program loads data set directly from UK Met Office.
-It is implemented with R statistical language and it does not
-need any extra libraries.
+![Barchart Comparison](barchart-comparison.png)
+
+---
+
+## Upside-Down Cone Regression Charts
+
+In the interval charts below, each horizontal segment represents a linear regression over a specific time window. 
+- **Vertical Axis:** Window length (7 to 50 years).
+- **Horizontal Axis:** Year.
+- **Upside-Down Cone Geometry:** Boundaries slope inward symmetrically on both sides as window length increases (`i_start = len`, `i_end = samples - 2 * len`).
+- **Colors:**
+  - **Red:** Statistically significant warming ($p < 0.05$)
+  - **Orange:** Non-significant warming ($p \ge 0.05$)
+  - **Cyan:** Non-significant cooling ($p \ge 0.05$)
+  - **Blue:** Statistically significant cooling ($p < 0.05$)
+
+Statistically most significant ranges are plotted on top.
+
+![Chart Comparison](chart-comparison.png)
+
+---
+
+## How to Run
+
+The script is implemented in standard R without external library dependencies:
+
+```bash
+Rscript HadCRUT-analysis.R
+```
+
+Outputs generated:
+- `chart-hadcrut4.png` / `barchart-hadcrut4.png`
+- `chart-hadcrut5-2021.png` / `barchart-hadcrut5-2021.png`
+- `chart-hadcrut5-2026.png` / `barchart-hadcrut5-2026.png`
+- `chart-comparison.png` / `barchart-comparison.png`
+
+---
+
+## Data Source
+- UK Met Office Hadley Centre HadCRUT4 / HadCRUT5 Open Data.
+
